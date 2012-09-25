@@ -1,13 +1,67 @@
 <head>
-  <title>contact</title>
+  <title>Contact: The Word Game</title>
 </head>
 
 <body>
-  {{> hello}}
+    <div id="wrapper">
+        {{> main}}
+    </div>
 </body>
 
-<template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
+<template name="main">
+    {{#if currentRoom}}
+        {{> room}}
+    {{/if}}
+    {{#unless currentRoom}}
+        {{> rooms}}
+    {{/unless}}
+</template>
+
+<template name="rooms">
+  <div class="roomList">
+    <center><h1>Contact</h1></center>
+    <form action="javascript:void(0)">
+      <center>
+        <input id="roomName" />
+        <button type="submit">New Room</button>
+      </center> 
+    </form>
+    <hr>
+    <ul>
+      {{#each availableRooms}}
+        {{> roomItem}}
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="roomItem">
+    <li class="roomItem">
+        {{name}} (Players: {{numPlayers}})<a href="javascript:void(0);" class="enter">Join Room</a>
+    </li>
+</template>
+
+<template name="room">
+  <div class="roomScreen">
+    <center><h2>{{roomName}}</h2></center>
+    <div class="gameBoard">
+      <div class="marker" style="top:{{y}}px; left:{{x}}px"></div>
+    </div>
+    <div class="quit">
+        <a href="javascript:void(0);" id="leave">Leave Room</a>
+    </div>
+    <center><p>Insert Game Rules Here!</p></center>
+    <div class="chat">
+      <ul id="messages">
+        {{#each messages}}
+            <li><span class="author">{{author}}:</span> {{text}}</li>
+        {{/each}}
+      </ul>
+      <form action="javascript:void(0)">
+        <label for="messageInput">Chat:</label>
+        <input id="messageInput" />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
 </template>
